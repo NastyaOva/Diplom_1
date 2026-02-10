@@ -1,4 +1,8 @@
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 import praktikum.Bun;
 import praktikum.Burger;
 import praktikum.Ingredient;
@@ -6,6 +10,7 @@ import praktikum.IngredientType;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
 
     @Test
@@ -30,7 +35,7 @@ public class BurgerTest {
         Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "chili sauce", 300);
         burger.addIngredient(ingredient);
         burger.removeIngredient(0);
-        assertNull(burger.ingredients);
+        assertTrue("Ингредиент не удалился", burger.ingredients.isEmpty());
     }
 
     @Test
@@ -45,7 +50,7 @@ public class BurgerTest {
         burger.moveIngredient(0, 2);
         assertEquals("Перенос ингредиентов неверный", firstIngredient, burger.ingredients.get(2));
     }
-    
+
     @Test
     public void getPriceTest() {
         Burger burger = new Burger();
@@ -57,6 +62,39 @@ public class BurgerTest {
         burger.addIngredient(secondIngredient);
         float price = burger.getPrice();
         assertEquals("Неверная сумма бургера", 900f, price, 0.01f);
+    }
+
+    @Test
+    public void getReceiptBunTest() {
+        Burger burger = new Burger();
+        Bun bun = new Bun("red bun", 300);
+        burger.setBuns(bun);
+        String receipt = burger.getReceipt();
+        assertTrue("Строки такой нет", receipt.contains("(==== red bun ====)"));
+    }
+
+    @Test
+    public void getReceiptIngredientTest() {
+        Burger burger = new Burger();
+        Bun bun = new Bun("red bun", 300);
+        burger.setBuns(bun);
+        Ingredient firstIngredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100);
+        burger.addIngredient(firstIngredient);
+        String receipt = burger.getReceipt();
+        assertTrue("Строки такой нет", receipt.contains("= sauce hot sauce ="));
+    }
+
+    @Test
+    public void getReceiptPriceTest() {
+        Burger burger = new Burger();
+        Bun bun = new Bun("white bun", 200);
+        burger.setBuns(bun);
+        Ingredient firstIngredient = new Ingredient(IngredientType.SAUCE, "sour cream", 200);
+        Ingredient secondIngredient = new Ingredient(IngredientType.FILLING, "sausage", 300);
+        burger.addIngredient(firstIngredient);
+        burger.addIngredient(secondIngredient);
+        String receipt = burger.getReceipt();
+        assertTrue("Строки такой нет", receipt.contains("Price: 900"));
     }
 }
 
