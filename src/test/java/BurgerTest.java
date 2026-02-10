@@ -1,6 +1,7 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import praktikum.Bun;
@@ -51,13 +52,20 @@ public class BurgerTest {
         assertEquals("Перенос ингредиентов неверный", firstIngredient, burger.ingredients.get(2));
     }
 
+    @Mock
+    Bun bun;
+    @Mock
+    Ingredient firstIngredient;
+    @Mock
+    Ingredient secondIngredient;
+
     @Test
     public void getPriceTest() {
         Burger burger = new Burger();
-        Bun bun = new Bun("red bun", 300);
+        Mockito.when(bun.getPrice()).thenReturn(300F);
         burger.setBuns(bun);
-        Ingredient firstIngredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100);
-        Ingredient secondIngredient = new Ingredient(IngredientType.FILLING, "dinosaur", 200);
+        Mockito.when(firstIngredient.getPrice()).thenReturn(100F);
+        Mockito.when(secondIngredient.getPrice()).thenReturn(200F);
         burger.addIngredient(firstIngredient);
         burger.addIngredient(secondIngredient);
         float price = burger.getPrice();
@@ -67,7 +75,7 @@ public class BurgerTest {
     @Test
     public void getReceiptBunTest() {
         Burger burger = new Burger();
-        Bun bun = new Bun("red bun", 300);
+        Mockito.when(bun.getName()).thenReturn("red bun");
         burger.setBuns(bun);
         String receipt = burger.getReceipt();
         assertTrue("Строки такой нет", receipt.contains("(==== red bun ====)"));
@@ -76,9 +84,10 @@ public class BurgerTest {
     @Test
     public void getReceiptIngredientTest() {
         Burger burger = new Burger();
-        Bun bun = new Bun("red bun", 300);
+        Mockito.when(bun.getName()).thenReturn("red bun");
         burger.setBuns(bun);
-        Ingredient firstIngredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100);
+        Mockito.when(firstIngredient.getType()).thenReturn(IngredientType.SAUCE);
+        Mockito.when(firstIngredient.getName()).thenReturn("hot sauce");
         burger.addIngredient(firstIngredient);
         String receipt = burger.getReceipt();
         assertTrue("Строки такой нет", receipt.contains("= sauce hot sauce ="));
@@ -87,10 +96,10 @@ public class BurgerTest {
     @Test
     public void getReceiptPriceTest() {
         Burger burger = new Burger();
-        Bun bun = new Bun("white bun", 200);
+        Mockito.when(bun.getPrice()).thenReturn(200F);
         burger.setBuns(bun);
-        Ingredient firstIngredient = new Ingredient(IngredientType.SAUCE, "sour cream", 200);
-        Ingredient secondIngredient = new Ingredient(IngredientType.FILLING, "sausage", 300);
+        Mockito.when(firstIngredient.getPrice()).thenReturn(200F);
+        Mockito.when(secondIngredient.getPrice()).thenReturn(300F);
         burger.addIngredient(firstIngredient);
         burger.addIngredient(secondIngredient);
         String receipt = burger.getReceipt();
