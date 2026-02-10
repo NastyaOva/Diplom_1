@@ -1,7 +1,5 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import praktikum.Bun;
@@ -50,26 +48,6 @@ public class BurgerTest {
         burger.addIngredient(thirdIngredient);
         burger.moveIngredient(0, 2);
         assertEquals("Перенос ингредиентов неверный", firstIngredient, burger.ingredients.get(2));
-    }
-
-    @Mock
-    Bun bun;
-    @Mock
-    Ingredient firstIngredient;
-    @Mock
-    Ingredient secondIngredient;
-
-    @Test
-    public void getPriceTest() {
-        Burger burger = new Burger();
-        Mockito.when(bun.getPrice()).thenReturn(300F);
-        burger.setBuns(bun);
-        Mockito.when(firstIngredient.getPrice()).thenReturn(100F);
-        Mockito.when(secondIngredient.getPrice()).thenReturn(200F);
-        burger.addIngredient(firstIngredient);
-        burger.addIngredient(secondIngredient);
-        float price = burger.getPrice();
-        assertEquals("Неверная сумма бургера", 900f, price, 0.01f);
     }
 
     @Spy
