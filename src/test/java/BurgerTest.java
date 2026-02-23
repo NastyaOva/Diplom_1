@@ -23,7 +23,7 @@ public class BurgerTest {
     @Test
     public void addIngredientTest() {
         Burger burger = new Burger();
-        Ingredient ingredient = new Ingredient(IngredientType.SAUCE,"sour cream", 200);
+        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "sour cream", 200);
         burger.addIngredient(ingredient);
         assertTrue("Ингредиент не добавился", burger.ingredients.contains(ingredient));
     }
@@ -57,22 +57,22 @@ public class BurgerTest {
     @Spy
     Ingredient secondIngredientReceipt = new Ingredient(IngredientType.FILLING, "sausage", 300);
 
-    @Test
-    public void getReceiptBunTest() {
-        Burger burger = new Burger();
-        burger.setBuns(bunReceipt);
-        String receipt = burger.getReceipt();
-        assertTrue("Строки такой нет", receipt.contains("(==== red bun ====)"));
-    }
-
-    @Test
-    public void getReceiptIngredientTest() {
-        Burger burger = new Burger();
-        burger.setBuns(bunReceipt);
-        burger.addIngredient(firstIngredientReceipt);
-        String receipt = burger.getReceipt();
-        assertTrue("Строки такой нет", receipt.contains("= sauce hot sauce ="));
-    }
+//    @Test
+//    public void getReceiptBunTest() {
+//        Burger burger = new Burger();
+//        burger.setBuns(bunReceipt);
+//        String receipt = burger.getReceipt();
+//        assertTrue("Строки такой нет", receipt.contains("(==== red bun ====)"));
+//    }
+//
+//    @Test
+//    public void getReceiptIngredientTest() {
+//        Burger burger = new Burger();
+//        burger.setBuns(bunReceipt);
+//        burger.addIngredient(firstIngredientReceipt);
+//        String receipt = burger.getReceipt();
+//        assertTrue("Строки такой нет", receipt.contains("= sauce hot sauce ="));
+//    }
 
     @Test
     public void getReceiptPriceTest() {
@@ -80,8 +80,14 @@ public class BurgerTest {
         burger.setBuns(bunReceipt);
         burger.addIngredient(firstIngredientReceipt);
         burger.addIngredient(secondIngredientReceipt);
-        String receipt = burger.getReceipt();
-        assertTrue("Строки такой нет", receipt.contains("Price: 1000"));
+        String expectedReceipt = String.format(
+                        "(==== red bun ====)%n" +
+                        "= sauce hot sauce =%n" +
+                        "= filling sausage =%n" +
+                        "(==== red bun ====)%n" +
+                        "%nPrice: 1000,000000%n"
+        );
+        assertEquals("Формат чека неверный", expectedReceipt, burger.getReceipt());
     }
 }
 
