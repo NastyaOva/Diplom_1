@@ -57,23 +57,6 @@ public class BurgerTest {
     @Spy
     Ingredient secondIngredientReceipt = new Ingredient(IngredientType.FILLING, "sausage", 300);
 
-//    @Test
-//    public void getReceiptBunTest() {
-//        Burger burger = new Burger();
-//        burger.setBuns(bunReceipt);
-//        String receipt = burger.getReceipt();
-//        assertTrue("Строки такой нет", receipt.contains("(==== red bun ====)"));
-//    }
-//
-//    @Test
-//    public void getReceiptIngredientTest() {
-//        Burger burger = new Burger();
-//        burger.setBuns(bunReceipt);
-//        burger.addIngredient(firstIngredientReceipt);
-//        String receipt = burger.getReceipt();
-//        assertTrue("Строки такой нет", receipt.contains("= sauce hot sauce ="));
-//    }
-
     @Test
     public void getReceiptPriceTest() {
         Burger burger = new Burger();
